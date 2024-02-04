@@ -1,23 +1,24 @@
 from typing import Any, ClassVar
 
-import sqlalchemy as sa
+from sqlalchemy import Column, FromClause, Integer
+from sqlalchemy.orm import DeclarativeBase, declared_attr
 
 
 class Mixin:  # for mypy
-    __table__: ClassVar[sa.FromClause]
+    __table__: ClassVar[FromClause]
     __tablename__: Any
 
 
 class MixinID(Mixin):
-    id = sa.Column(
-        sa.Integer,
+    id = Column(
+        Integer,
         primary_key=True,
         nullable=False,
     )
 
 
-class Base(sa.orm.DeclarativeBase):
-    @sa.orm.declared_attr.directive
+class Base(DeclarativeBase):
+    @declared_attr.directive
     @classmethod
     def __tablename__(cls) -> str:
         return cls.__name__.lower()

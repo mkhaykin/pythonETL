@@ -1,17 +1,18 @@
-import sqlalchemy as sa
+from sqlalchemy import Column, UniqueConstraint
+from sqlalchemy.types import VARCHAR
 
 from .base import BaseModel
 
 
 class Company(BaseModel):
-    name = sa.Column(
-        sa.types.VARCHAR(250),
+    name = Column(
+        VARCHAR(250),
         nullable=False,
     )
 
-    inn = sa.Column(
-        sa.types.VARCHAR(12),
+    inn = Column(
+        VARCHAR(12),
         nullable=False,
     )
 
-    __table_args__ = (sa.UniqueConstraint("name", "inn", name="uc_company"),)
+    __table_args__ = (UniqueConstraint("name", "inn", name="uc_company"),)

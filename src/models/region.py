@@ -1,11 +1,12 @@
-import sqlalchemy as sa
+from sqlalchemy import Column
+from sqlalchemy.types import VARCHAR
 
 from .base import BaseModel
 
 
 class Region(BaseModel):
-    name = sa.Column(
-        sa.types.VARCHAR(50),
+    name = Column(
+        VARCHAR(50),
         unique=True,
         nullable=False,
     )

@@ -1,4 +1,5 @@
-import sqlalchemy as sa
+from sqlalchemy import Column, ForeignKey
+from sqlalchemy.types import DATE, INTEGER, VARCHAR
 
 from .base import BaseModel
 from .company import Company
@@ -8,51 +9,51 @@ from .type import Type
 
 
 class Overdue(BaseModel):
-    region_id = sa.Column(BaseModel.id.type, sa.ForeignKey(Region.id))
+    region_id = Column(BaseModel.id.type, ForeignKey(Region.id))
 
-    company_id = sa.Column(
+    company_id = Column(
         BaseModel.id.type,
-        sa.ForeignKey(Company.id),
+        ForeignKey(Company.id),
     )
 
-    status_id = sa.Column(BaseModel.id.type, sa.ForeignKey(Status.id))
+    status_id = Column(BaseModel.id.type, ForeignKey(Status.id))
 
-    type_id = sa.Column(
+    type_id = Column(
         BaseModel.id.type,
-        sa.ForeignKey(Type.id),
+        ForeignKey(Type.id),
     )
 
-    gtin = sa.Column(
-        sa.types.VARCHAR(14),
+    gtin = Column(
+        VARCHAR(14),
         nullable=False,
     )
 
-    series = sa.Column(
-        sa.types.VARCHAR(30),
+    series = Column(
+        VARCHAR(30),
         nullable=False,
     )
 
-    doses = sa.Column(
-        sa.types.INTEGER,
+    doses = Column(
+        INTEGER,
         nullable=False,
     )
 
-    count_packs = sa.Column(
-        sa.types.INTEGER,
+    count_packs = Column(
+        INTEGER,
         nullable=False,
     )
 
-    count_doses = sa.Column(
-        sa.types.INTEGER,
+    count_doses = Column(
+        INTEGER,
         nullable=False,
     )
 
-    expiration_date = sa.Column(
-        sa.types.DATE,
+    expiration_date = Column(
+        DATE,
         nullable=False,
     )
 
-    days_overdue = sa.Column(
-        sa.types.INTEGER,
+    days_overdue = Column(
+        INTEGER,
         nullable=False,
     )
