@@ -14,6 +14,21 @@ services:
     ports:
      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
 
+  bot:
+      container_name: bot
+      build:
+        context: .
+        dockerfile: Dockerfile
+      restart: on-failure
+      env_file:
+        - .env
+      environment:
+        POSTGRES_HOST: db
+      links:
+        - db
+      depends_on:
+        - db
+
 networks:
   default:
       name: lan
