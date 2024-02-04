@@ -4,10 +4,7 @@ from sqlalchemy import and_, column, exists, func, insert, or_, select
 
 import src.models as models
 from src.db import get_engine
-
-FILE_TO_LOAD = "../import/Просрочено (06.09.2022).xlsx"
-FILE_TO_EXPORT = "./../export/send.xlsx"
-TMP_TABLE = "overdue_import"
+from src.settings import settings
 
 names = [
     "region_name",
@@ -42,7 +39,7 @@ dtypes = {
 
 def _from_xlsx_to_tmp():
     df = pd.read_excel(
-        io=FILE_TO_LOAD,
+        io=settings.FILE_TO_LOAD,
         sheet_name="Статика",
         header=None,
         names=names,
@@ -54,7 +51,7 @@ def _from_xlsx_to_tmp():
 
     with get_engine().connect() as con:
         df.to_sql(
-            name=TMP_TABLE,
+            name=settings.TMP_TABLE,
             con=con,
             schema="public",
             dtype=dtypes,
@@ -69,7 +66,7 @@ def _from_tmp_to_tables():
         names=[models.Region.name],
         select=(
             select(column("region_name").label("name"))
-            .select_from(sa.table(TMP_TABLE))
+            .select_from(sa.table(settings.TMP_TABLE))
             .distinct()
             .filter(
                 ~exists().where(column("region_name") == models.Region.name)
@@ -82,7 +79,7 @@ def _from_tmp_to_tables():
         names=[models.Status.name],
         select=(
             select(column("status").label("name"))
-            .select_from(sa.table(TMP_TABLE))
+            .select_from(sa.table(settings.TMP_TABLE))
             .distinct()
             .filter(~exists().where(column("status") == models.Status.name))
         ),
@@ -93,7 +90,7 @@ def _from_tmp_to_tables():
         names=[models.Type.name],
         select=(
             select(column("type").label("name"))
-            .select_from(sa.table(TMP_TABLE))
+            .select_from(sa.table(settings.TMP_TABLE))
             .distinct()
             .filter(~exists().where(column("type") == models.Type.name))
         ),
@@ -107,7 +104,7 @@ def _from_tmp_to_tables():
                 column("company_inn").label("inn"),
                 column("company_name").label("name"),
             )
-            .select_from(sa.table(TMP_TABLE))
+            .select_from(sa.table(settings.TMP_TABLE))
             .distinct()
             .filter(
                 ~exists().where(
@@ -135,7 +132,7 @@ def _from_tmp_to_tables():
             column("expiration_date"),
             column("days_overdue"),
         )
-        .select_from(sa.table(TMP_TABLE))
+        .select_from(sa.table(settings.TMP_TABLE))
         .join(
             target=models.Company,
             onclause=and_(
@@ -205,7 +202,7 @@ def _from_table_to_xlsx():
             con=con,
         )
         df.to_excel(
-            FILE_TO_EXPORT,
+            settings.FILE_TO_EXPORT,
             sheet_name="result",
             index=False,
             header=[

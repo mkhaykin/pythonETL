@@ -1,6 +1,5 @@
 from collections.abc import AsyncGenerator
 
-from dotenv import dotenv_values
 from sqlalchemy import Engine
 from sqlalchemy.engine import URL, create_engine
 from sqlalchemy.ext.asyncio import (
@@ -10,25 +9,25 @@ from sqlalchemy.ext.asyncio import (
 )
 
 from src.models import Base
+from src.settings import settings
 
-settings = dotenv_values("./../.env")
 
 SQLALCHEMY_DATABASE_URL = URL.create(
     drivername="postgresql",
-    username=settings["POSTGRES_USER"],
-    password=settings["POSTGRES_PASSWORD"],
-    host=settings["POSTGRES_HOST"],
-    port=settings["POSTGRES_PORT"],  # type: ignore
-    database=settings["POSTGRES_DB"],
+    username=settings.POSTGRES_USER,
+    password=settings.POSTGRES_PASSWORD,
+    host=settings.POSTGRES_HOST,
+    port=settings.POSTGRES_PORT,
+    database=settings.POSTGRES_DB,
 )
 
 SQLALCHEMY_DATABASE_URL_async = URL.create(
     drivername="postgresql+asyncpg",
-    username=settings["POSTGRES_USER"],
-    password=settings["POSTGRES_PASSWORD"],
-    host=settings["POSTGRES_HOST"],
-    port=settings["POSTGRES_PORT"],  # type: ignore
-    database=settings["POSTGRES_DB"],
+    username=settings.POSTGRES_USER,
+    password=settings.POSTGRES_PASSWORD,
+    host=settings.POSTGRES_HOST,
+    port=settings.POSTGRES_PORT,
+    database=settings.POSTGRES_DB,
 )
 
 

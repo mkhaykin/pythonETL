@@ -2,13 +2,10 @@ from aiogram import Bot, Dispatcher, types
 from aiogram.enums import ParseMode
 from aiogram.filters import Command, CommandStart
 from aiogram.types import FSInputFile, Message
-from dotenv import dotenv_values
 
 from src.xlsx import export_xlsx
+from src.settings import settings
 
-settings = dotenv_values("./../.env")
-TOKEN: str = settings["TG_BOT_TOKEN"]  # type: ignore
-FILE_TO_EXPORT = "./../export/send.xlsx"
 
 dp = Dispatcher()
 
@@ -32,7 +29,7 @@ async def report_handler(message: types.Message):
 
     await message.answer_document(
         document=FSInputFile(
-            path=FILE_TO_EXPORT,
+            path=settings.FILE_TO_EXPORT,
             filename="report.xlsx",
         ),
     )
@@ -53,7 +50,7 @@ async def echo_handler(message: types.Message) -> None:
 
 async def bot_loop() -> None:
     bot = Bot(
-        token=TOKEN,
+        token=settings.TG_BOT_TOKEN,
         parse_mode=ParseMode.HTML,
     )
     await dp.start_polling(bot)
