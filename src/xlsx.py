@@ -182,7 +182,7 @@ def _from_table_to_xlsx():
     select_stmt = (
         select(
             models.Region.name,
-            func.sum(models.Overdue.count_packs).label("sum_count_packs"),
+            func.sum(models.Overdue.count_doses).label("sum_count_packs"),
             func.round(func.avg(models.Overdue.days_overdue)).label(
                 "avg_days_overdue"
             ),
