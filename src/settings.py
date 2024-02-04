@@ -1,6 +1,7 @@
 from dataclasses import dataclass
+from os import environ
 
-from dotenv import dotenv_values
+import dotenv
 
 
 @dataclass
@@ -19,4 +20,16 @@ class Settings:
     TMP_TABLE = "overdue_import"
 
 
-settings = Settings(**dotenv_values(".env"))  # type: ignore
+dotenv.load_dotenv(
+    dotenv_path=".env",
+    override=False,
+)
+
+settings = Settings(
+    POSTGRES_USER=environ["POSTGRES_USER"],
+    POSTGRES_PASSWORD=environ["POSTGRES_PASSWORD"],
+    POSTGRES_HOST=environ["POSTGRES_HOST"],
+    POSTGRES_PORT=int(environ["POSTGRES_PORT"]),
+    POSTGRES_DB=environ["POSTGRES_DB"],
+    TG_BOT_TOKEN=environ["TG_BOT_TOKEN"],
+)
