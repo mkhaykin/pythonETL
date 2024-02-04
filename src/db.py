@@ -11,7 +11,6 @@ from sqlalchemy.ext.asyncio import (
 from src.models import Base
 from src.settings import settings
 
-
 SQLALCHEMY_DATABASE_URL = URL.create(
     drivername="postgresql",
     username=settings.POSTGRES_USER,

@@ -1,5 +1,6 @@
-from dotenv import dotenv_values
 from dataclasses import dataclass
+
+from dotenv import dotenv_values
 
 
 @dataclass
@@ -18,4 +19,4 @@ class Settings:
     TMP_TABLE = "overdue_import"
 
 
-settings = Settings(**dotenv_values(".env"))
+settings = Settings(**dotenv_values(".env"))  # type: ignore
