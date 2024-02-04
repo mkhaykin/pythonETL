@@ -8,8 +8,8 @@ from sqlalchemy.ext.asyncio import (
     create_async_engine,
 )
 
-from src.models import Base
-from src.settings import settings
+from models import Base
+from settings import settings
 
 SQLALCHEMY_DATABASE_URL = URL.create(
     drivername="postgresql",

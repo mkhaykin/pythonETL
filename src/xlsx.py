@@ -2,9 +2,9 @@ import pandas as pd
 import sqlalchemy as sa
 from sqlalchemy import and_, column, exists, func, insert, or_, select
 
-import src.models as models
-from src.db import get_engine
-from src.settings import settings
+import models
+from db import get_engine
+from settings import settings
 
 names = [
     "region_name",

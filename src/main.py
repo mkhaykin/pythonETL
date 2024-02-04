@@ -1,8 +1,8 @@
 import asyncio
 
-from src.bot import bot_loop
-from src.db import create_tables, drop_tables
-from src.xlsx import import_xlsx
+from bot import bot_loop
+from db import create_tables, drop_tables
+from xlsx import import_xlsx
 
 if __name__ == "__main__":
     drop_tables()

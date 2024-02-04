@@ -3,8 +3,8 @@ from aiogram.enums import ParseMode
 from aiogram.filters import Command, CommandStart
 from aiogram.types import FSInputFile, Message
 
-from src.settings import settings
-from src.xlsx import export_xlsx
+from settings import settings
+from xlsx import export_xlsx
 
 dp = Dispatcher()
 
