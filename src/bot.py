@@ -1,3 +1,5 @@
+import logging
+
 from aiogram import Bot, Dispatcher, types
 from aiogram.enums import ParseMode
 from aiogram.filters import Command, CommandStart
@@ -7,6 +9,7 @@ from settings import settings
 from xlsx import export_xlsx
 
 dp = Dispatcher()
+logger = logging.getLogger(__name__)
 
 
 @dp.message(CommandStart())
@@ -24,6 +27,7 @@ async def report_handler(message: types.Message):
     """
     This handler receives messages with `/report` command
     """
+    logger.info(f"Request report by user id: {str(message.from_user.id)}")
     export_xlsx()
 
     await message.answer_document(
@@ -52,4 +56,6 @@ async def bot_loop() -> None:
         token=settings.TG_BOT_TOKEN,
         parse_mode=ParseMode.HTML,
     )
+    logger.info("Bot loop starting ...")
     await dp.start_polling(bot)
+    logger.info("Bot loop finished.")

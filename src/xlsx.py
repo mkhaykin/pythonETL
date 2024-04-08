@@ -1,3 +1,5 @@
+import logging
+
 import pandas as pd
 import sqlalchemy as sa
 from sqlalchemy import and_, column, exists, func, insert, or_, select
@@ -35,6 +37,8 @@ dtypes = {
     "expiration_date": models.Overdue.expiration_date.type,
     "days_overdue": models.Overdue.days_overdue.type,
 }
+
+logger = logging.getLogger(__name__)
 
 
 def _from_xlsx_to_tmp():
@@ -214,9 +218,13 @@ def _from_table_to_xlsx():
 
 
 def import_xlsx() -> None:
+    logger.info("xlsx import start")
     _from_xlsx_to_tmp()
     _from_tmp_to_tables()
+    logger.info("xlsx import finish")
 
 
 def export_xlsx() -> None:
+    logger.info("xlsx export start")
     _from_table_to_xlsx()
+    logger.info("xlsx export finish")
